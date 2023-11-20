@@ -32,7 +32,7 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsersDTO> getUsersById(@PathVariable final Long id) {
+    public ResponseEntity<UsersDTO> getUsersDetail(@PathVariable final Long id) {
         return ResponseEntity
                 .ok()
                 .body(usersService.getUsersById(id).orElseThrow(() -> new IllegalArgumentException("Resource not found exception for the id: " + id)));

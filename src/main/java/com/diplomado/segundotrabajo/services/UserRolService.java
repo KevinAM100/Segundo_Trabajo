@@ -11,7 +11,12 @@ public interface UserRolService {
 
     List<UserRolDTO> findAllByUserID(Long userID);
 
+    Optional<UserRolDTO> findByID (Integer id);
+
     UserRolDTO save(UserRolDTO userRol);
 
+    UserRolDTO inactivateUserRol(Integer userRolID);
+
+    void delete(Integer id);
 
 }

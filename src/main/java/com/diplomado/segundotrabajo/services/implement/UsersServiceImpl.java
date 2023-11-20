@@ -1,17 +1,20 @@
 package com.diplomado.segundotrabajo.services.implement;
 
 import com.diplomado.segundotrabajo.domain.entities.UserDetail;
+import com.diplomado.segundotrabajo.domain.entities.UserRol;
 import com.diplomado.segundotrabajo.domain.entities.Users;
+import com.diplomado.segundotrabajo.dto.UserRolDTO;
 import com.diplomado.segundotrabajo.dto.UsersDTO;
 import com.diplomado.segundotrabajo.repositories.UserDetailRepository;
+import com.diplomado.segundotrabajo.repositories.UserRolRepository;
 import com.diplomado.segundotrabajo.repositories.UsersRepository;
 import com.diplomado.segundotrabajo.services.UsersService;
+import com.diplomado.segundotrabajo.services.mapper.UserRolMapper;
 import com.diplomado.segundotrabajo.services.mapper.UsersMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,12 +29,18 @@ public class UsersServiceImpl implements UsersService {
 
     private final UserDetailRepository userDetailRepository;
 
+    private final UserRolRepository userRolRepository;
+
+    private final UserRolMapper userRolMapper;
+
 
     public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper,
-                            UserDetailRepository userDetailRepository) {
+                            UserDetailRepository userDetailRepository, UserRolRepository userRolRepository, UserRolMapper userRolMapper) {
         this.usersRepository = usersRepository;
         this.usersMapper = usersMapper;
         this.userDetailRepository = userDetailRepository;
+        this.userRolRepository = userRolRepository;
+        this.userRolMapper = userRolMapper;
     }
 
 
@@ -83,6 +92,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void delete(Long id) {
+
+        List<UserRolDTO> userRolToDelte = userRolRepository.findAllByUserID_IdOrderById(id).stream()
+                .map(userRolMapper::toDto).collect(Collectors.toList());
         Users userToDelete = usersRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("the user with id: " + id + "not found"));
 
@@ -91,6 +103,9 @@ public class UsersServiceImpl implements UsersService {
 
         if (userDetail != null) {
             userDetailRepository.deleteById(userDetail.getId());
+        }
+        for (UserRolDTO userRolDTO : userRolToDelte) {
+            userRolRepository.deleteById(userRolDTO.getId());
         }
 
         usersRepository.deleteById(id);

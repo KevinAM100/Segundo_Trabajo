@@ -1,5 +1,7 @@
 package com.diplomado.segundotrabajo.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,6 +27,7 @@ public class UserDetail  implements Serializable {
     private LocalDate birthDay;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Users users;
 
 

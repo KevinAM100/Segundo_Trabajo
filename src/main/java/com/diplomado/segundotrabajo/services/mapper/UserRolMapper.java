@@ -25,14 +25,28 @@ public class UserRolMapper implements CustomMapper<UserRolDTO, UserRol>{
         dto.setCreated_at(userRol.getCreated_at());
 
         if (userRol.getUserID() != null && userRol.getRolID() != null) {
-            dto.setLastName(userRol.getUserID().getUsername());
-            dto.setFirstName(userRol.getUserID().getUserDetail().getLastName());
+            dto.setUserID(userRol.getUserID());
+            dto.setRolID(userRol.getRolID());
+           dto.setLastName(userRol.getUserID().getUsername());
+           dto.setFirstName(userRol.getUserID().getUserDetail().getLastName());
             dto.setRolName(userRol.getRolID().getName());
         } else {
             dto.setUserID(null);
             dto.setRolID(null);
         }
         return dto;
+    }
+
+
+    public UserRol toEntityInactiveRol(UserRolDTO userRolDTO) {
+            UserRol userRol = new UserRol();
+        if (userRol.getUserID() != null && userRol.getRolID() != null) {
+            userRol.setActive(userRolDTO.getActive());
+        } else {
+            userRol.setUserID(null);
+            userRol.setRolID(null);
+        }
+        return userRol;
     }
 
     @Override

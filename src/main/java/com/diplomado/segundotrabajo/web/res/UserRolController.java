@@ -12,17 +12,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("/v1/users/{userID}/userRol")
+@RequestMapping("/v1/users/{userID}/user-rol")
 public class UserRolController {
 
     private final UserRolService userRolService;
-    private final UsersService usersService;
 
-    public UserRolController(UserRolService userRolService, UsersService usersService) {
+    public UserRolController(UserRolService userRolService) {
         this.userRolService = userRolService;
-        this.usersService = usersService;
     }
 
     @GetMapping
@@ -45,4 +44,5 @@ public class UserRolController {
                 .body(userRolDB);
 
     }
+
 }

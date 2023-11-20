@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface UserRolRepository extends JpaRepository<UserRol, Integer> {
     List<UserRol> findAllByUserID_IdOrderById(Long userID);
+
 }
