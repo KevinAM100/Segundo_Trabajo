@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,8 +21,10 @@ public class Users {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserDetail userDetail;
+
+
 
 
     public Users(String username, String password, String email, LocalDateTime createdAt) {
@@ -81,4 +84,5 @@ public class Users {
     public void setUserDetail(UserDetail userDetail) {
         this.userDetail = userDetail;
     }
+
 }

@@ -24,7 +24,7 @@ public class UserDetail  implements Serializable {
     @Column(name = "birth_day")
     private LocalDate birthDay;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Users users;
 
 
