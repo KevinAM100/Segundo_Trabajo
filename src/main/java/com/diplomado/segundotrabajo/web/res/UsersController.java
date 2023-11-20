@@ -23,36 +23,37 @@ public class UsersController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsersDTO>> listStudents(@RequestParam(required = false, defaultValue = "false") boolean detailed) {
+    public ResponseEntity<List<UsersDTO>> listUsers(@RequestParam(required = false, defaultValue = "false") boolean detailed) {
         if (detailed) {
             return ResponseEntity.ok().body(usersService.listUsersDetailed());
         } else {
-            return ResponseEntity.ok().body(usersService.listUsersDetailed());
+            return ResponseEntity.ok().body(usersService.listUsers());
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsersDTO> getStudentById(@PathVariable final Long id) {
+    public ResponseEntity<UsersDTO> getUsersDetail(@PathVariable final Long id) {
         return ResponseEntity
                 .ok()
                 .body(usersService.getUsersById(id).orElseThrow(() -> new IllegalArgumentException("Resource not found exception for the id: " + id)));
     }
 
+
     @PostMapping
     public ResponseEntity<UsersDTO> create(@RequestBody final UsersDTO dto) throws URISyntaxException {
         if (dto.getId() != null) {
-            throw new IllegalArgumentException("I new student cannot already have an id.");
+            throw new IllegalArgumentException("I new users cannot already have an id.");
         }
         dto.setCreatedAt(LocalDateTime.now());
 
         UsersDTO usersDB = usersService.save(dto);
 
-        return ResponseEntity.created(new URI("/v1/students/" + usersDB.getId())).body(usersDB);
+        return ResponseEntity.created(new URI("/v1/users/" + usersDB.getId())).body(usersDB);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsersDTO> editCourse(@RequestBody final UsersDTO dto,
-                                           @PathVariable final Long id) throws URISyntaxException {
+    public ResponseEntity<UsersDTO> editUsers(@RequestBody final UsersDTO dto,
+                                              @PathVariable final Long id) throws URISyntaxException {
         if (dto.getId() == null) {
             throw new IllegalArgumentException("Invalid user id, the value is null");
         }
@@ -62,13 +63,12 @@ public class UsersController {
         dto.setCreatedAt(LocalDateTime.now());
         return ResponseEntity
                 .ok()
-                .body(this.usersService.save(dto));
+                .body(this.usersService.edit(dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
         usersService.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 }

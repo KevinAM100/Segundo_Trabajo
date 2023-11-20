@@ -10,6 +10,9 @@ public interface UsersService {
     List<UsersDTO> listUsers();
     List<UsersDTO> listUsersDetailed();
     UsersDTO save(UsersDTO dto);
+
+    UsersDTO edit(UsersDTO dto);
+
     Optional<UsersDTO> getUsersById(Long id);
     void delete(Long id);
 }
