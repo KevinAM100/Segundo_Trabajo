@@ -13,7 +13,6 @@ public class Rol {
     @Id
     @SequenceGenerator(name = "rol_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_sequence")
-
     private Integer id;
 
     @Size(min = 8, max = 20, message = "El nombre debe tener entre 8 y 20 caracteres")

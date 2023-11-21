@@ -1,9 +1,7 @@
 package com.diplomado.segundotrabajo.services.implement;
 
 import com.diplomado.segundotrabajo.domain.entities.UserDetail;
-import com.diplomado.segundotrabajo.domain.entities.UserRol;
 import com.diplomado.segundotrabajo.domain.entities.Users;
-import com.diplomado.segundotrabajo.dto.RolDTO;
 import com.diplomado.segundotrabajo.dto.UserRolDTO;
 import com.diplomado.segundotrabajo.dto.UsersDTO;
 import com.diplomado.segundotrabajo.error.LocalNotFoundException;
@@ -13,7 +11,6 @@ import com.diplomado.segundotrabajo.repositories.UsersRepository;
 import com.diplomado.segundotrabajo.services.UsersService;
 import com.diplomado.segundotrabajo.services.mapper.UserRolMapper;
 import com.diplomado.segundotrabajo.services.mapper.UsersMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +64,7 @@ public class UsersServiceImpl implements UsersService {
     public UsersDTO save(UsersDTO dto) {
         Users users = usersRepository.save(usersMapper.toEntity(dto));
         userDetailRepository
-                .save(new UserDetail(dto.getFirstName(), dto.getLastName(),dto.getAge(),null,  users));
+                .save(new UserDetail(dto.getFirstName(), dto.getLastName(),dto.getAge(), dto.getBirthDay(),  users));
         return usersMapper.toDto(users);
 
     }

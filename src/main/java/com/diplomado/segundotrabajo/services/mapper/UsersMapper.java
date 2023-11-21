@@ -30,10 +30,12 @@ public class UsersMapper implements CustomMapper<UsersDTO, Users>{
             dto.setFirstName(users.getUserDetail().getFirstName());
             dto.setLastName(users.getUserDetail().getLastName());
             dto.setAge(users.getUserDetail().getAge());
+            dto.setBirthDay(users.getUserDetail().getBirthDay());
         } else {
             dto.setFirstName("Not assigned yet");
             dto.setLastName("Not assigned yet");
             dto.setAge(0);
+            dto.setBirthDay(null);
         }
 
 
