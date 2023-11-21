@@ -1,11 +1,14 @@
 package com.diplomado.segundotrabajo.services.implement;
 
+import com.diplomado.segundotrabajo.domain.entities.Rol;
 import com.diplomado.segundotrabajo.dto.RolDTO;
+import com.diplomado.segundotrabajo.error.LocalNotFoundException;
 import com.diplomado.segundotrabajo.repositories.RolRepository;
 import com.diplomado.segundotrabajo.services.RolService;
 import com.diplomado.segundotrabajo.services.mapper.RolMapper;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,8 +41,12 @@ public class RolServiceImpl implements RolService {
 
 
     @Override
-    public Optional<RolDTO> getRolsById(Integer id) {
-        return rolRepository.findById(id).map(rolMapper::toDto);
+    public Optional<RolDTO> getRolsById(Integer id) throws LocalNotFoundException {
+        Optional<RolDTO> rolsDTO = rolRepository.findById(id).map(rolMapper::toDto);
+        if(!rolsDTO.isPresent()){
+            throw new LocalNotFoundException("rol is not available");
+        }
+        return rolsDTO;
     }
 
     @Override

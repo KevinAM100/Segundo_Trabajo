@@ -1,6 +1,7 @@
 package com.diplomado.segundotrabajo.web.res;
 
 import com.diplomado.segundotrabajo.dto.UsersDTO;
+import com.diplomado.segundotrabajo.error.LocalNotFoundException;
 import com.diplomado.segundotrabajo.services.UsersService;
 import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,10 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsersDTO> getUsersDetail(@PathVariable final Long id) {
+    public ResponseEntity<UsersDTO> getUsersDetail(@PathVariable final Long id) throws LocalNotFoundException {
         return ResponseEntity
                 .ok()
-                .body(usersService.getUsersById(id).orElseThrow(() -> new IllegalArgumentException("Resource not found exception for the id: " + id)));
+                .body(usersService.getUsersById(id).orElseThrow(() -> new LocalNotFoundException("")));
     }
 
 
@@ -67,7 +68,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable final Long id) {
+    public ResponseEntity<Void> delete(@PathVariable final Long id) throws LocalNotFoundException{
         usersService.delete(id);
         return ResponseEntity.noContent().build();
     }

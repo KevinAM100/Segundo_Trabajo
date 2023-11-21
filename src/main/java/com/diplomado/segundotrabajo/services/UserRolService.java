@@ -15,7 +15,7 @@ public interface UserRolService {
 
     UserRolDTO save(UserRolDTO userRol);
 
-    UserRolDTO inactivateUserRol(Integer userRolID);
+    List<UserRolDTO> getUserRolByRolID(Integer rolID);
 
     void delete(Integer id);
 
