@@ -25,9 +25,11 @@ public class UserRolController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserRolDTO>> listEnrollmentsByUser(@PathVariable final Long userID) {
+    public ResponseEntity<List<UserRolDTO>> listRolsByUser(@PathVariable final Long userID) {
         return ResponseEntity.ok().body(userRolService.getRolByUserID(userID));
     }
+
+
 
     @PostMapping
     public ResponseEntity<UserRolDTO> save(@RequestBody final UserRolDTO userRolDTO) throws URISyntaxException {

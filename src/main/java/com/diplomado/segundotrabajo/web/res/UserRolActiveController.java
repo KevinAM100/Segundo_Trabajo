@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/users/user-rol/active")
+@RequestMapping("/v1/users/user-rol")
 public class UserRolActiveController {
 
     private final UserRolService userRolService;
@@ -25,7 +26,15 @@ public class UserRolActiveController {
     }
 
 
-    @PatchMapping("{userRolID}")
+
+    @GetMapping("{rolID}")
+    public ResponseEntity<List<UserRolDTO>> listUserByRolID(@PathVariable final Integer rolID) {
+        return ResponseEntity.ok().body(userRolService.getUserRolByRolID(rolID));
+    }
+
+
+
+    @PatchMapping("/active/{userRolID}")
     public ResponseEntity<UserRolDTO> editActive(@RequestBody final UserRolDTO userRolDTO,
                                                  @PathVariable final Integer userRolID ) throws URISyntaxException {
 

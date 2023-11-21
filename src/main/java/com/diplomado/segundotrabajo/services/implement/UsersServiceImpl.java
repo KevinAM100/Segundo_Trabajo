@@ -1,17 +1,16 @@
 package com.diplomado.segundotrabajo.services.implement;
 
 import com.diplomado.segundotrabajo.domain.entities.UserDetail;
-import com.diplomado.segundotrabajo.domain.entities.UserRol;
 import com.diplomado.segundotrabajo.domain.entities.Users;
 import com.diplomado.segundotrabajo.dto.UserRolDTO;
 import com.diplomado.segundotrabajo.dto.UsersDTO;
+import com.diplomado.segundotrabajo.error.LocalNotFoundException;
 import com.diplomado.segundotrabajo.repositories.UserDetailRepository;
 import com.diplomado.segundotrabajo.repositories.UserRolRepository;
 import com.diplomado.segundotrabajo.repositories.UsersRepository;
 import com.diplomado.segundotrabajo.services.UsersService;
 import com.diplomado.segundotrabajo.services.mapper.UserRolMapper;
 import com.diplomado.segundotrabajo.services.mapper.UsersMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +64,7 @@ public class UsersServiceImpl implements UsersService {
     public UsersDTO save(UsersDTO dto) {
         Users users = usersRepository.save(usersMapper.toEntity(dto));
         userDetailRepository
-                .save(new UserDetail(dto.getFirstName(), dto.getLastName(),dto.getAge(),null,  users));
+                .save(new UserDetail(dto.getFirstName(), dto.getLastName(),dto.getAge(), dto.getBirthDay(),  users));
         return usersMapper.toDto(users);
 
     }
@@ -86,24 +85,28 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<UsersDTO> getUsersById(Long id) {
-        return usersRepository.findById(id).map(usersMapper::toDtoDetailed);
+    public Optional<UsersDTO> getUsersById(Long id) throws LocalNotFoundException {
+
+        Optional<UsersDTO> usersDTO = usersRepository.findById(id).map(usersMapper::toDtoDetailed);
+        if(!usersDTO.isPresent()){
+            throw new LocalNotFoundException("user is not available");
+        }
+        return usersDTO;
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws LocalNotFoundException{
 
         List<UserRolDTO> userRolToDelte = userRolRepository.findAllByUserID_IdOrderById(id).stream()
                 .map(userRolMapper::toDto).collect(Collectors.toList());
+
         Users userToDelete = usersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("the user with id: " + id + "not found"));
+                .orElseThrow(() -> new LocalNotFoundException("the user with id: " + id + "not found"));
 
         UserDetail userDetail = userDetailRepository.findByUsersId(id)
-                .orElseThrow(() -> new EntityNotFoundException("the user_detail with id: " + id + "not found"));
+                .orElseThrow(() -> new LocalNotFoundException("the user_detail with id: " + id + "not found"));
 
-        if (userDetail != null) {
-            userDetailRepository.deleteById(userDetail.getId());
-        }
+
         for (UserRolDTO userRolDTO : userRolToDelte) {
             userRolRepository.deleteById(userRolDTO.getId());
         }

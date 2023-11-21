@@ -54,16 +54,10 @@ public class UserRolServiceImpl implements UserRolService {
     }
 
     @Override
-    public UserRolDTO inactivateUserRol(Integer userRolID) {
-        Optional<UserRol> userRolOptional = userRolRepository.findById(userRolID);
-        if (userRolOptional.isPresent()) {
-            UserRol userRol = userRolOptional.get();
-            userRol.setActive(false);
-            userRolRepository.save(userRol);
-            return userRolMapper.toDto(userRol);
-        } else {
-            throw new NoSuchElementException("No se encontró el rol-usuario con ID: " + userRolID);
-        }
+    public List<UserRolDTO> getUserRolByRolID(Integer rolID) {
+        return userRolRepository.findAllByRolID_IdOrderById(rolID)
+                .stream()
+                .map(userRolMapper::toDtoList).collect(Collectors.toList());
     }
 
     @Override

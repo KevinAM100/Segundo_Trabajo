@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,6 +21,7 @@ public class UsersDTO {
     private String firstName;
     private String LastName;
     private Integer age;
+    private LocalDate birthDay;
 
     public UsersDTO() {
     }
