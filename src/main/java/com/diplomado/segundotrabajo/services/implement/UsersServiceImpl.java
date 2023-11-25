@@ -75,9 +75,11 @@ public class UsersServiceImpl implements UsersService {
         Users users = usersRepository.save(usersMapper.toEntity(dto));
         UserDetail existingUserDetail = userDetailRepository.findByUsersId(users.getId())
                 .orElse(new UserDetail());
+        existingUserDetail.setId(dto.getUserDetailId());
         existingUserDetail.setFirstName(dto.getFirstName());
         existingUserDetail.setLastName(dto.getLastName());
         existingUserDetail.setAge(dto.getAge());
+        existingUserDetail.setBirthDay(dto.getBirthDay());
         existingUserDetail.setUsers(users);
         userDetailRepository.save(existingUserDetail);
         return usersMapper.toDto(users);

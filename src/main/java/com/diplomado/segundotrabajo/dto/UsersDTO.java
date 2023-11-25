@@ -18,6 +18,8 @@ public class UsersDTO {
     private  String email;
     private LocalDateTime createdAt;
 
+
+    private Long userDetailId;
     private String firstName;
     private String LastName;
     private Integer age;
