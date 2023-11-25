@@ -1,10 +1,12 @@
 package com.diplomado.segundotrabajo;
 
+import com.diplomado.segundotrabajo.config.WebConfing;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -12,6 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 
 @SpringBootApplication
+@Import(WebConfing.class)
 public class SegundoTrabajoApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(SegundoTrabajoApplication.class);

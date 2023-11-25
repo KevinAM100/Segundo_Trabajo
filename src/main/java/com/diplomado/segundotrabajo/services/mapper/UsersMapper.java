@@ -27,6 +27,7 @@ public class UsersMapper implements CustomMapper<UsersDTO, Users>{
         dto.setCreatedAt(users.getCreatedAt());
 
         if (users.getUserDetail() != null) {
+            dto.setUserDetailId(users.getUserDetail().getId());
             dto.setFirstName(users.getUserDetail().getFirstName());
             dto.setLastName(users.getUserDetail().getLastName());
             dto.setAge(users.getUserDetail().getAge());
